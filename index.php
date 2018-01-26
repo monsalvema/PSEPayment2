@@ -12,6 +12,8 @@ try {
 
     Autoload::register();
 
+
+
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

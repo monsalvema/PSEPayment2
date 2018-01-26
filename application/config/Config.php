@@ -25,4 +25,6 @@ class Config {
     );
     public static $pseUrl = "https://test.placetopay.com/soap/pse/?wsdl";
     public static $pseEndPoint = "https://test.placetopay.com/soap/pse/";
+    public static $login = "6dd490faf9cb87a9862245da41170ff2";
+    public static $transactionKey = "024h1IlD";
 }
