@@ -13,7 +13,7 @@
 class Config {
 
     public static $database = array(
-        'dsn'         => 'mysql:dbname=psepayment;host=cxsrv002.cognox.com;port=3307',
+        'dsn'         => 'mysql:dbname=psepayment;host=localhost;port=3306',
         'username'    => 'root',
         'password'    => 'root',
     );
@@ -21,7 +21,9 @@ class Config {
         'config' => "/application/config/Config.php",
         'DbConnection' => "/application/config/DbConnection.php",
         'Log' => "/application/models/Log.php",
-        'WebservicePse' => "/application/models/WebservicePse.php",
+        'Pse' => "/application/models/Pse.php",
+        'WebserviceProxy' => "/application/libraries/WebserviceProxy.php",
+        'controller' => "/application/controllers/controller.php",
     );
     public static $pseUrl = "https://test.placetopay.com/soap/pse/?wsdl";
     public static $pseEndPoint = "https://test.placetopay.com/soap/pse/";
