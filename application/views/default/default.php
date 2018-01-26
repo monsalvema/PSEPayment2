@@ -30,24 +30,6 @@ $oBanks = $oBanks->getBankListResult->item;
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -65,9 +47,9 @@ $oBanks = $oBanks->getBankListResult->item;
 <!-- Page Content -->
 <div class="container">
     <div class="row">
-        <div class="text-center col-sm-8">
-            <h2 class="mt-4">Seleccione el banco</h2>
-            <select class="mt-2" id="slcBanks">
+        <div class="text-center col-sm-12">
+            <h2 class="mt-4 mb-4">Seleccione el banco</h2>
+            <select class="mt-12 mb-5" id="slcBanks">
                 <?php foreach($oBanks as $bank) { ?>
                     <option value="<?php echo $bank->bankCode; ?>"><?php echo $bank->bankName; ?></option>
                 <?php } ?>

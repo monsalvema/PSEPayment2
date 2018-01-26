@@ -14,7 +14,7 @@ class Pse
     /**
      * @var WebServiceProxy
      */
-    protected  $webserviceproxy = null;
+    protected $webserviceproxy = null;
 
     /**
      * Método constructor

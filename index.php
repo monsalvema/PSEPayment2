@@ -21,7 +21,7 @@ try {
         case 'transaction':
             break;
         default:
-            $oController->home();
+            $oController->firstPage();
             break;
     }
 
