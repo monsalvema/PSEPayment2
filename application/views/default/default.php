@@ -53,7 +53,14 @@
     <form action="index.php" method="post">
         <div class="row">
             <div class="text-center col-sm-12">
-                <h2 class="mt-3 mb-3">Seleccione entidad financiera</h2>
+                <h5 class="mt-3 mb-3">Seleccione tipo de cuenta</h5>
+                <input type="radio" name="cuenta" id="persona" value="0" checked/>
+                <label for="persona">Persona</label>
+                <input type="radio" name="cuenta" id="empresa" value="1"/>
+                <label for="empresa">Empresa</label>
+            </div>
+            <div class="text-center col-sm-12">
+                <h5 class="mt-3 mb-3">Seleccione entidad financiera</h5>
                 <select class="mt-12 mb-5 inputBanks" id="slcBanks" name="slcBanks">
                     <?php foreach($oBanks as $bank) { ?>
                         <option value="<?php echo $bank->bankCode; ?>"><?php echo $bank->bankName; ?></option>

@@ -67,9 +67,6 @@ class WebServiceProxy
             $oLog->update($iLogId, $this->_soapClient->__getLastResponse(), $fFinalTime - $fInitalTime);
             return $mResult;
         } catch (SoapFault $e) {
-            echo '<pre>' . __LINE__;
-            print_r($e->getMessage());
-            exit;
             return false;
         }
     }

@@ -24,18 +24,30 @@ class Transaction
     }
 
     /**
+     * Obtiene la información de una transacción en el sistema
+     *
+     * @param int $iTransactionId
+     * @return mixed
+     */
+    public function getTransaction($iTransactionId) {
+        $sQuery = "SELECT * FROM pse_transaction WHERE trn_id = ?";
+        $oStatement = $this->_connection->prepare($sQuery);
+        $oStatement->execute(array($iTransactionId));
+        return $oStatement->fetchObject();
+    }
+
+    /**
      * Crea una transacción en la base de datos
      *
+     * @param float $fTransactionValue
      * @return string
      */
-    public function createTransaction() {
-        $sQuery = "INSERT INTO pse_transaction (trn_log_id, trn_status, trn_message, trn_ip, trn_date)
-            VALUES (?, ?, ?, ?, ?)";
+    public function createTransaction($fTransactionValue) {
+        $sQuery = "INSERT INTO pse_transaction (trn_status, trn_value, trn_ip, trn_date) VALUES (?, ?, ?)";
         $oStatement = $this->_connection->prepare($sQuery);
         $oStatement->execute(array(
-            null,
             'Initial',
-            null,
+            $fTransactionValue,
             $_SERVER['REMOTE_ADDR'],
             date('Y-m-d H:i:s')
         ));
@@ -47,6 +59,7 @@ class Transaction
      *
      * @param int $iTransactionId
      * @param string $sStatus
+     * @param null $sMessage
      * @param string $sTransactionPseId
      */
     public function updateTransaction($iTransactionId, $sStatus, $sMessage = null, $sTransactionPseId = null) {

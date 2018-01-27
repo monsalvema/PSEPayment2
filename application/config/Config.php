@@ -23,6 +23,7 @@ class Config {
         'Log' => "/application/models/Log.php",
         'Pse' => "/application/models/Pse.php",
         'Transaction' => "/application/models/Transaction.php",
+        'Cache' => "/application/models/Cache.php",
         'WebserviceProxy' => "/application/libraries/WebserviceProxy.php",
         'controller' => "/application/controllers/controller.php",
     );
@@ -31,4 +32,5 @@ class Config {
     public static $pseEndPoint = "https://test.placetopay.com/soap/pse/";
     public static $login = "6dd490faf9cb87a9862245da41170ff2";
     public static $transactionKey = "024h1IlD";
+    public static $cachePath = "cache/";
 }

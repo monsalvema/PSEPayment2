@@ -20,9 +20,15 @@ class controller
      * @version SVN:$id$
      */
     public function firstPage($sDefaultMessage = null) {
-        $oPse = new Pse();
-        $oBanks = $oPse->getBankList();
-        $oBanks = isset($oBanks->getBankListResult->item) ? $oBanks->getBankListResult->item : array();
+        $aCacheBanks = Cache::get();
+        if (count($aCacheBanks) > 0) {
+            $oBanks = $aCacheBanks;
+        } else {
+            $oPse = new Pse();
+            $oBanks = $oPse->getBankList();
+            $oBanks = isset($oBanks->getBankListResult->item) ? $oBanks->getBankListResult->item : array();
+            Cache::put($oBanks);
+        }
         $sMessage = $sDefaultMessage;
         if (count($oBanks) <= 0) {
             $sMessage .= "*No se pudo obtener la lista de Entidades Financieras, por favor intente más tarde.";
@@ -34,14 +40,16 @@ class controller
      * Método que realiza la transacción
      */
     public function transaction() {
-        $iBankId = isset($_REQUEST['slcBanks']) ? $_REQUEST['slcBanks'] : '';
+        $iBankId = isset($_POST['slcBanks']) ? $_POST['slcBanks'] : '';
         if ('' != $iBankId && $iBankId != 0) {
+            $iAccountType = $_POST['cuenta'];
             $oTransaction = new Transaction();
-            $iTransactionId = $oTransaction->createTransaction();
+            //Se asigna un valor genérico de pruebas para las transacciones
+            $iTransactionId = $oTransaction->createTransaction(1);
             $oPse = new Pse();
             $aParams = $oPse->getCreateTransactionRequest();
             $aParams['transaction']['bankCode'] = $iBankId;
-            $aParams['transaction']['bankInterface'] = 0;
+            $aParams['transaction']['bankInterface'] = $iAccountType;
             $aParams['transaction']['reference'] = $iTransactionId;
             $aParams['transaction']['ipAddress'] = $_SERVER['REMOTE_ADDR'];
             $aParams['transaction']['returnURL'] .= "&trn={$iTransactionId}";
@@ -65,6 +73,10 @@ class controller
             $sMessage = "*Error. No seleccionó banco <br/>";
             $this->firstPage($sMessage);
         }
+    }
+
+    public function confirm() {
+
     }
 
     /**

@@ -14,7 +14,7 @@ try {
 
     Autoload::register();
 
-    $sAction = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+    $sAction = isset($_POST['action']) ? $_POST['action'] : '';
     $oController = new controller();
 
     switch ($sAction) {
