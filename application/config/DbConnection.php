@@ -22,7 +22,7 @@ class DbConnection
      *
      * Obtiene la conexión a la base de datos
      *
-     * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
+     * @author Jhonatan Alexis Monsalve Marín <monsalvema87@hotmail.com>
      * @return PDO
      * @throws Exception
      */

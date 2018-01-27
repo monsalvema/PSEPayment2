@@ -16,7 +16,7 @@ class controller
      *
      * Función que redirige a la primera página
      *
-     * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
+     * @author Jhonatan Alexis Monsalve Marín <monsalvema87@hotmail.com>
      * @version SVN:$id$
      */
     public function firstPage($sDefaultMessage = null) {

@@ -53,7 +53,7 @@ class WebServiceProxy
      * @param string $sMethodName
      * @param array $aArguments
      *
-     * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
+     * @author Jhonatan Alexis Monsalve Marín <monsalvema87@hotmail.com>
      * @return bool|mixed
      */
     public function callMethod($sMethodName, $aArguments) {

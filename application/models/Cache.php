@@ -1,6 +1,14 @@
 <?php
 
-
+/**
+ * Class Cache
+ *
+ * Clase para la implementación del cache de la lista de los bancos
+ *
+ * @author Jhonatan Alexis Monsalve Marín
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version 1.0
+ */
 class Cache {
 
     /**

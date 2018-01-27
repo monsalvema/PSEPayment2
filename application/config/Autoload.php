@@ -16,7 +16,7 @@ class Autoload {
      *
      * registra las clases que se necesitarán en el proyecto
      *
-     * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
+     * @author Jhonatan Alexis Monsalve Marín <monsalvema87@hotmail.com>
      */
     static public function register() {
         $aClasses = Config::$classes;

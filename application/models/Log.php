@@ -38,7 +38,7 @@ class Log
      * @param string $sLogType
      * @param string $sRequest
      *
-     * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
+     * @author Jhonatan Alexis Monsalve Marín <monsalvema87@hotmail.com>
      * @return string
      */
     public function insert($sLogType, $sRequest) {
@@ -61,7 +61,7 @@ class Log
      * @param string $sResponse
      * @param float $fDuration
      *
-     * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
+     * @author Jhonatan Alexis Monsalve Marín <monsalvema87@hotmail.com>
      */
     public function update($iLogId, $sResponse, $fDuration) {
         $sQuery = "
