@@ -19,6 +19,10 @@ try {
 
     switch ($sAction) {
         case 'transaction':
+            $oController->transaction();
+            break;
+        case 'confirm':
+            $oController->confirm();
             break;
         default:
             $oController->firstPage();

@@ -1,6 +1,4 @@
-<?php
-$oBanks = $oBanks->getBankListResult->item;
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +36,7 @@ $oBanks = $oBanks->getBankListResult->item;
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="display-3 text-center text-white mt-4">Business Name or Tagline</h1>
+                <h1 class="display-3 text-center text-white mt-4 mb-0">Payment test</h1>
             </div>
         </div>
     </div>
@@ -46,24 +44,29 @@ $oBanks = $oBanks->getBankListResult->item;
 
 <!-- Page Content -->
 <div class="container">
-    <div class="row">
-        <div class="text-center col-sm-12">
-            <h2 class="mt-4 mb-4">Seleccione el banco</h2>
-            <select class="mt-12 mb-5" id="slcBanks">
-                <?php foreach($oBanks as $bank) { ?>
-                    <option value="<?php echo $bank->bankCode; ?>"><?php echo $bank->bankName; ?></option>
-                <?php } ?>
-            </select>
+    <?php if (isset($sMessage)) {
+        ?>
+        <div class="text-center col-sm-12 error mt-5">
+            <p><?php echo $sMessage ?></p>
         </div>
-    </div>
-    <!-- /.row -->
-
-
-    </div>
-    <!-- /.row -->
-
+    <?php } ?>
+    <form action="index.php" method="post">
+        <div class="row">
+            <div class="text-center col-sm-12">
+                <h2 class="mt-3 mb-3">Seleccione entidad financiera</h2>
+                <select class="mt-12 mb-5 inputBanks" id="slcBanks" name="slcBanks">
+                    <?php foreach($oBanks as $bank) { ?>
+                        <option value="<?php echo $bank->bankCode; ?>"><?php echo $bank->bankName; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="text-center col-sm-12 mb-4">
+                <input type="submit" class="btn" value="Continuar compra"/>
+                <input type="hidden" id="action" name="action" value="transaction"/>
+            </div>
+        </div>
+    </form>
 </div>
-<!-- /.container -->
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">

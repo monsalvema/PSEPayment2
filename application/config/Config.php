@@ -13,18 +13,16 @@
 class Config {
 
     public static $database = array(
-/*        'dsn'         => 'mysql:dbname=psepayment;host=localhost;port=3306',  //Localhost
+        'dsn'         => 'mysql:dbname=psepayment;host=localhost;port=3306',
         'username'    => 'root',
-        'password'    => 'root',*/
-        'dsn'         => 'mysql:dbname=psepayment;host=cxsrv002;port=3307',
-        'username'    => 'root',
-        'password'    => 'RootCognox',
+        'password'    => 'root',
     );
     public static $classes = array(
         'config' => "/application/config/Config.php",
         'DbConnection' => "/application/config/DbConnection.php",
         'Log' => "/application/models/Log.php",
         'Pse' => "/application/models/Pse.php",
+        'Transaction' => "/application/models/Transaction.php",
         'WebserviceProxy' => "/application/libraries/WebserviceProxy.php",
         'controller' => "/application/controllers/controller.php",
     );
