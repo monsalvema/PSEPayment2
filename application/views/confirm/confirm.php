@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +23,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">Página de pago</a>
+        <a class="navbar-brand" href="#">Página de confirmación</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,7 +31,7 @@
 </nav>
 
 <!-- Header with Background Image -->
-<header class="business-header">
+<div class="business-header">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -40,39 +39,42 @@
             </div>
         </div>
     </div>
-</header>
+</div>
 
 <!-- Page Content -->
 <div class="container heighbody">
     <?php if (isset($sMessage)) {
         ?>
-        <div class="text-center col-sm-12 error mt-2">
+        <div class="text-center col-sm-12 error mt-5">
             <p><?php echo $sMessage ?></p>
         </div>
     <?php } ?>
-    <form action="index.php" method="post">
-        <div class="row">
-            <div class="text-center col-sm-12 mt-2">
-                <h5 class="mt-3 mb-3">Seleccione tipo de cuenta</h5>
-                <input type="radio" name="cuenta" id="persona" value="0" checked/>
-                <label for="persona">Persona</label>
-                <input type="radio" name="cuenta" id="empresa" value="1"/>
-                <label for="empresa">Empresa</label>
+    <div class="row">
+            <div class="text-center col-sm-12">
+                <h5 class="mt-5 mb-5">Información de la transacción</h5>
+                <table class="text-center col-sm-12 mt-4 mb-5" border="1">
+                    <tr>
+                        <th>Transacción</th>
+                        <th>Valor</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                    <?php if (isset($oResponse)) { ?>
+                    <tr>
+                        <td><?php echo $oResponse->SystemTransaction->trn_id ?></td>
+                        <td><?php echo $oResponse->SystemTransaction->trn_value ?></td>
+                        <td><?php echo $oResponse->SystemTransaction->trn_date ?></td>
+                        <td><?php echo $oResponse->PseTransasction->responseReasonText ?></td>
+                    </tr>
+                    <?php } ?>
+                </table>
             </div>
             <div class="text-center col-sm-12">
-                <h5 class="mt-3 mb-3">Seleccione entidad financiera</h5>
-                <select class="mt-12 mb-5 inputBanks" id="slcBanks" name="slcBanks">
-                    <?php foreach($oBanks as $bank) { ?>
-                        <option value="<?php echo $bank->bankCode; ?>"><?php echo $bank->bankName; ?></option>
-                    <?php } ?>
-                </select>
+            <form action="index.php" method="post">
+                <input type="submit" class="btn btn-primary" value="Realizar otra transacciòn"/>
+            </form>
             </div>
-            <div class="text-center col-sm-12 mb-4">
-                <input type="submit" class="btn btn-primary" value="Continuar compra"/>
-                <input type="hidden" id="action" name="action" value="transaction"/>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 
 <!-- Footer -->

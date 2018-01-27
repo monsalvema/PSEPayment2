@@ -42,6 +42,14 @@ class Pse
         return $this->webserviceproxy->callMethod(__FUNCTION__, $aParams);
     }
 
+    /**
+     * @param array $aParams
+     * @return bool|mixed
+     */
+    public function getTransactionInformation($aParams) {
+        return $this->webserviceproxy->callMethod(__FUNCTION__, $aParams);
+    }
+
     public function getCreateTransactionRequest() {
         return array(
             'transaction' => array(

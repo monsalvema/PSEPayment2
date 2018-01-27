@@ -63,7 +63,7 @@ class WebServiceProxy
             $mResult = $this->_soapClient->{$sMethodName}($aParams);
             $fFinalTime = microtime(true);
             $oLog = new Log();
-            $iLogId = $oLog->insert($this->_soapClient->__getLastRequest());
+            $iLogId = $oLog->insert($sMethodName, $this->_soapClient->__getLastRequest());
             $oLog->update($iLogId, $this->_soapClient->__getLastResponse(), $fFinalTime - $fInitalTime);
             return $mResult;
         } catch (SoapFault $e) {

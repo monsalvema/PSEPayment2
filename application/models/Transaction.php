@@ -40,18 +40,24 @@ class Transaction
      * Crea una transacción en la base de datos
      *
      * @param float $fTransactionValue
+     * @throws Exception
      * @return string
      */
     public function createTransaction($fTransactionValue) {
-        $sQuery = "INSERT INTO pse_transaction (trn_status, trn_value, trn_ip, trn_date) VALUES (?, ?, ?)";
-        $oStatement = $this->_connection->prepare($sQuery);
-        $oStatement->execute(array(
-            'Initial',
-            $fTransactionValue,
-            $_SERVER['REMOTE_ADDR'],
-            date('Y-m-d H:i:s')
-        ));
-        return $this->_connection->lastInsertId();
+        try {
+            $sQuery = "INSERT INTO pse_transaction (trn_status, trn_value, trn_ip, trn_date)
+                VALUES (?, ?, ?, ?)";
+            $oStatement = $this->_connection->prepare($sQuery);
+            $oStatement->execute(array(
+                'Initial',
+                $fTransactionValue,
+                $_SERVER['REMOTE_ADDR'],
+                date('Y-m-d H:i:s')
+            ));
+            return $this->_connection->lastInsertId();
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage(), 1);
+        }
     }
 
     /**
@@ -63,15 +69,22 @@ class Transaction
      * @param string $sTransactionPseId
      */
     public function updateTransaction($iTransactionId, $sStatus, $sMessage = null, $sTransactionPseId = null) {
+        $aSet = array("trn_status = '{$sStatus}'");
+        if ($sMessage !== null) {
+            $aSet[] = "trn_message = '{$sMessage}'";
+        }
+        if ($sTransactionPseId != null) {
+            $aSet[] = "trn_transactionpseid = {$sTransactionPseId}";
+        }
+        $sSet = implode(',', $aSet);
         $sQuery = "
         UPDATE pse_transaction
             SET
-                trn_status = ?,
-                trn_message = ?,
-                trn_transactionpseid = ?
+              {$sSet}
         WHERE
             trn_id = ?";
         $oStatement = $this->_connection->prepare($sQuery);
-        $oStatement->execute(array($sStatus, $sMessage, $sTransactionPseId, $iTransactionId));
+        $oStatement->execute(array($iTransactionId));
+        $_COOKIE['LogId'] = '';
     }
 } 

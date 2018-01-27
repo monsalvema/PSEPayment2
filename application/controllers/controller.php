@@ -42,32 +42,36 @@ class controller
     public function transaction() {
         $iBankId = isset($_POST['slcBanks']) ? $_POST['slcBanks'] : '';
         if ('' != $iBankId && $iBankId != 0) {
-            $iAccountType = $_POST['cuenta'];
-            $oTransaction = new Transaction();
-            //Se asigna un valor genérico de pruebas para las transacciones
-            $iTransactionId = $oTransaction->createTransaction(1);
-            $oPse = new Pse();
-            $aParams = $oPse->getCreateTransactionRequest();
-            $aParams['transaction']['bankCode'] = $iBankId;
-            $aParams['transaction']['bankInterface'] = $iAccountType;
-            $aParams['transaction']['reference'] = $iTransactionId;
-            $aParams['transaction']['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-            $aParams['transaction']['returnURL'] .= "&trn={$iTransactionId}";
-            $oTransactionResponse = $oPse->createTransaction($aParams);
-            if ($oTransactionResponse && isset($oTransactionResponse->createTransactionResult)) {
-                if ('SUCCESS' == $oTransactionResponse->createTransactionResult->returnCode) {
-                    $oTransaction->updateTransaction($iTransactionId, 'Pending', null
-                        , $oTransactionResponse->createTransactionResult->transactionID);
-                    $this->redirect($oTransactionResponse->createTransactionResult->bankURL);
+            try {
+                $iAccountType = $_POST['cuenta'];
+                $oTransaction = new Transaction();
+                //Se asigna un valor genérico de pruebas para las transacciones
+                $iTransactionId = $oTransaction->createTransaction(1);
+                $oPse = new Pse();
+                $aParams = $oPse->getCreateTransactionRequest();
+                $aParams['transaction']['bankCode'] = $iBankId;
+                $aParams['transaction']['bankInterface'] = $iAccountType;
+                $aParams['transaction']['reference'] = $iTransactionId;
+                $aParams['transaction']['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+                $aParams['transaction']['returnURL'] .= "&trn={$iTransactionId}";
+                $oTransactionResponse = $oPse->createTransaction($aParams);
+                if ($oTransactionResponse && isset($oTransactionResponse->createTransactionResult)) {
+                    if ('SUCCESS' == $oTransactionResponse->createTransactionResult->returnCode) {
+                        $oTransaction->updateTransaction($iTransactionId, 'Processing', null
+                            , $oTransactionResponse->createTransactionResult->transactionID);
+                        $this->redirect($oTransactionResponse->createTransactionResult->bankURL);
+                    } else {
+                        $sMessage = "*{$oTransactionResponse->createTransactionResult->responseReasonText}";
+                        $oTransaction->updateTransaction($iTransactionId, 'Error', $sMessage);
+                        $this->firstPage($sMessage);
+                    }
                 } else {
-                    $sMessage = "*{$oTransactionResponse->createTransactionResult->responseReasonText}";
+                    $sMessage = "*Error conexión PSE <br/>";
                     $oTransaction->updateTransaction($iTransactionId, 'Error', $sMessage);
                     $this->firstPage($sMessage);
                 }
-            } else {
-                $sMessage = "*Error conexión PSE <br/>";
-                $oTransaction->updateTransaction($iTransactionId, 'Error', $sMessage);
-                $this->firstPage($sMessage);
+            } catch (Exception $e) {
+                $this->firstPage($e->getMessage());
             }
         } else {
             $sMessage = "*Error. No seleccionó banco <br/>";
@@ -75,8 +79,39 @@ class controller
         }
     }
 
+    /**
+     * Buscar la transacción y mostrar el estado de esta
+     */
     public function confirm() {
-
+        $iTransactionId = isset($_REQUEST['trn']) ? $_REQUEST['trn'] : 0;
+        if ($iTransactionId > 0) {
+            $oTransaction = new Transaction();
+            $oCurrentTransaction = $oTransaction->getTransaction($iTransactionId);
+            if ($oCurrentTransaction) {
+                $oPse = new Pse();
+                $oPseTransaction = $oPse->getTransactionInformation(array(
+                    'transactionID' => $oCurrentTransaction->trn_transactionpseid)
+                );
+                if (isset($oPseTransaction->getTransactionInformationResult)) {
+                    $oTransaction->updateTransaction($oCurrentTransaction->trn_id
+                        , $oPseTransaction->getTransactionInformationResult->transactionState);
+                    $oResponse = (object) array(
+                        'SystemTransaction' => $oCurrentTransaction,
+                        'PseTransasction' => $oPseTransaction->getTransactionInformationResult
+                    );
+                    require_once($this->getView('confirm'));
+                } else {
+                    $sMessage = "Error consultando transacción PSE";
+                    require_once($this->getView('confirm'));
+                }
+            } else {
+                $sMessage = "Error, la transacción no existe";
+                require_once($this->getView('confirm'));
+            }
+        } else {
+            $sMessage = "Error";
+            require_once($this->getView('confirm'));
+        }
     }
 
     /**

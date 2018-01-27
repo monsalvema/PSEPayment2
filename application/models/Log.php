@@ -18,6 +18,11 @@ class Log
     protected $_connection = null;
 
     /**
+     * @var int
+     */
+    public $_logId = null;
+
+    /**
      *
      * Log constructor.
      *
@@ -30,15 +35,17 @@ class Log
      *
      * Insert el request en la tabla pse_log
      *
+     * @param string $sLogType
      * @param string $sRequest
      *
      * @author Jhonatan Alexis Monsalve Marín <jamonsalve@cognox.com>
      * @return string
      */
-    public function insert($sRequest) {
-        $sQuery = "INSERT INTO pse_log (log_request, log_ipAddres, log_date) VALUES (?, ?, ?)";
+    public function insert($sLogType, $sRequest) {
+        $sQuery = "INSERT INTO pse_log (log_type, log_request, log_ipAddress, log_date) VALUES (?, ?, ?, ?)";
         $oStatement = $this->_connection->prepare($sQuery);
         $oStatement->execute(array(
+            $sLogType,
             $sRequest,
             $_SERVER['REMOTE_ADDR'],
             date('Y-m-d H:i:s')
